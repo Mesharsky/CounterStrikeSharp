@@ -1,9 +1,7 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using Microsoft.Extensions.Logging;
 
 namespace WithVoiceOverrides;
 
@@ -12,10 +10,9 @@ public class WithVoiceOverridesPlugin : BasePlugin
 {
     public override string ModuleName => "Example: With Voice Overrides";
     public override string ModuleVersion => "1.0.0";
-    public override string ModuleAuthor => "CounterStrikeSharp & Contributors";
-    public override string ModuleDescription => "A plugin that manipulates voice flags";
 
-    [ConsoleCommand("css_hearall")]
+    // begin-snippet: voice-listen-all
+    [ConsoleCommand("css_hearall", "Toggles hearing both teams")]
     public void OnHearAllCommand(CCSPlayerController? caller, CommandInfo command)
     {
         if (caller is null) return;
@@ -31,39 +28,22 @@ public class WithVoiceOverridesPlugin : BasePlugin
             command.ReplyToCommand("Can hear both teams");
         }
     }
-    
-    [ConsoleCommand("css_muteself")]
-    public void OnMuteSelfCommand(CCSPlayerController? caller, CommandInfo command)
-    {
-        if (caller is null) return;
+    // end-snippet
 
-        if (caller.VoiceFlags.HasFlag(VoiceFlags.Muted))
-        {
-            caller.VoiceFlags = VoiceFlags.Normal;
-            command.ReplyToCommand("Unmuted yourself");
-        }
-        else
-        {
-            caller.VoiceFlags = VoiceFlags.Muted;
-            command.ReplyToCommand("Muted yourself");
-        }
-    }
-    
-    [ConsoleCommand("css_muteothers")]
+    // begin-snippet: voice-listen-override
+    [ConsoleCommand("css_muteothers", "Mutes the target for the caller only")]
     [CommandHelper(minArgs: 1, usage: "[target]")]
     public void OnMuteOthersCommand(CCSPlayerController? caller, CommandInfo command)
     {
         if (caller is null) return;
 
         var targetResult = command.GetArgTargetResult(1);
-        
         foreach (var player in targetResult.Players)
         {
             if (player == caller) continue;
 
-
-            var existingOverride = caller.GetListenOverride(player);
-            if (existingOverride == ListenOverride.Mute)
+            var current = caller.GetListenOverride(player);
+            if (current == ListenOverride.Mute)
             {
                 caller.SetListenOverride(player, ListenOverride.Default);
                 command.ReplyToCommand($"Now hearing {player.PlayerName}");
@@ -74,6 +54,6 @@ public class WithVoiceOverridesPlugin : BasePlugin
                 command.ReplyToCommand($"Muted {player.PlayerName}");
             }
         }
-        
     }
+    // end-snippet
 }

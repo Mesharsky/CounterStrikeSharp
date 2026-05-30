@@ -1,0 +1,42 @@
+---
+title: CounterStrikeSharp
+description: Write Counter-Strike 2 server plugins in C#.
+template: splash
+hero:
+  tagline: A simpler way to write Counter-Strike 2 server plugins, in C#.
+  image:
+    file: ../../assets/cssharp.svg
+  actions:
+    - text: Get started
+      link: /guides/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: Download
+      link: https://github.com/roflmuffin/CounterStrikeSharp/releases/latest
+      icon: external
+    - text: API reference
+      link: /api/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+<CardGrid stagger>
+  <Card title="Install on your server" icon="rocket">
+    Follow the [getting started guide](/guides/getting-started/) to install
+    Metamod and CounterStrikeSharp on a Counter-Strike 2 server.
+  </Card>
+  <Card title="Write your first plugin" icon="pencil">
+    The [hello world plugin guide](/guides/hello-world-plugin/) walks through
+    creating, building, and installing a plugin from scratch.
+  </Card>
+  <Card title="See real examples" icon="open-book">
+    Browse the [examples](/examples/hello-world/). Every snippet comes from a
+    real source file that compiles.
+  </Card>
+  <Card title="Browse the API" icon="document">
+    The full [API reference](/api/) is generated from the
+    CounterStrikeSharp.API project.
+  </Card>
+</CardGrid>

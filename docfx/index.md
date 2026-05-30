@@ -1,24 +1,15 @@
 ---
-_layout: landing
-uid: home
-title: CounterStrikeSharp
-_appTitle: ''
-description: Write Counter-Strike 2 server plugins in C#.
+title: CounterStrikeSharp API reference
+description: Generated API reference for the CounterStrikeSharp.API project.
 ---
 
-<div class="row justify-content-md-center">
-  <div class="col-12 col-lg-10 col-xl-8 col-xxl-6">
-    <div class="text-center">
-      <img src="images/cssharp.svg" height="128" width="128">
-      <h1 class="h1">CounterStrikeSharp</h1>
-      <span>CounterStrikeSharp is a simpler way to write CS2 server plugins.</span>
-      <div>
-        <a href="docs/guides/getting-started.md" class="btn btn-primary btn-lg fw-bold my-5">Get Started <i class="bi bi-arrow-right"></a>
-        <a href="https://github.com/roflmuffin/CounterStrikeSharp/releases/latest" class="btn btn-secondary btn-lg fw-bold my-5">Download <i class="bi bi-download"></a>
-      </div>
-    </div>
+# CounterStrikeSharp API reference
 
-[!code-csharp[](../examples/HelloWorld/HelloWorldPlugin.cs)]
+This is the auto generated API reference for the
+[CounterStrikeSharp.API](https://www.nuget.org/packages/CounterStrikeSharp.API)
+project.
 
-  </div>
-</div>
+For guides, examples, and other documentation, head back to the
+[main documentation site](/).
+
+- [Browse the API by namespace](api/)

@@ -1,6 +1,4 @@
-- name: Docs
-  href: docs/
-- name: Examples
-  href: examples/
-- name: API
+- name: API reference
   href: api/
+- name: Back to docs
+  href: /

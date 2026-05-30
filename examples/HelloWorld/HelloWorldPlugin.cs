@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿// begin-snippet: hello-world-plugin
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using Microsoft.Extensions.Logging;
 
@@ -16,9 +17,10 @@ public class HelloWorldPlugin : BasePlugin
     {
         Logger.LogInformation("Hello World! We are loading!");
     }
-    
+
     public override void Unload(bool hotReload)
     {
         Logger.LogInformation("Hello World! We are unloading!");
     }
 }
+// end-snippet

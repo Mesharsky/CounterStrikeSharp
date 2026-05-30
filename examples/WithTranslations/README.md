@@ -1,4 +1,4 @@
-﻿# With Translations
+# With Translations
 This example shows how to use an `IStringLocalizer` and language `json` files to provide localization for your plugins.
 
 ## How to use

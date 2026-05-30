@@ -10,34 +10,39 @@ public class WithEntityOutputHooksPlugin : BasePlugin
 {
     public override string ModuleName => "Example: With Entity Output Hooks";
     public override string ModuleVersion => "1.0.0";
-    public override string ModuleAuthor => "CounterStrikeSharp & Contributors";
-    public override string ModuleDescription => "A simple plugin that showcases entity output hooks";
 
     public override void Load(bool hotReload)
     {
-        HookEntityOutput("weapon_knife", "OnPlayerPickup", (CEntityIOOutput output, string name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay) =>
-        {
-            Logger.LogInformation("weapon_knife called OnPlayerPickup ({name}, {activator}, {caller}, {delay})", name, activator.DesignerName, caller.DesignerName, delay);
-            
-            return HookResult.Continue;
-        });
+        // begin-snippet: entity-output-hook-load
+        HookEntityOutput("weapon_knife", "OnPlayerPickup",
+            (CEntityIOOutput output, string name,
+                CEntityInstance activator, CEntityInstance caller,
+                CVariant value, float delay) =>
+            {
+                Logger.LogInformation("knife OnPlayerPickup ({Caller})", caller.DesignerName);
+                return HookResult.Continue;
+            });
+        // end-snippet
     }
-    
-    // Output hooks can use wildcards to match multiple entities
+
+    // begin-snippet: entity-output-hook-attribute
+    // Wildcards work for either the classname or the output name.
     [EntityOutputHook("*", "OnPlayerPickup")]
-    public HookResult OnPickup(CEntityIOOutput output, string name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
+    public HookResult OnPickup(CEntityIOOutput output, string name,
+        CEntityInstance activator, CEntityInstance caller,
+        CVariant value, float delay)
     {
-        Logger.LogInformation("[EntityOutputHook Attribute] Called OnPlayerPickup ({name}, {activator}, {caller}, {delay})", name, activator.DesignerName, caller.DesignerName, delay);
-
+        Logger.LogInformation("OnPlayerPickup on {Caller}", caller.DesignerName);
         return HookResult.Continue;
     }
-    
-    // Output hooks can use wildcards to match multiple output names
+
     [EntityOutputHook("func_buyzone", "*")]
-    public HookResult OnTouchStart(CEntityIOOutput output, string name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
+    public HookResult OnBuyZone(CEntityIOOutput output, string name,
+        CEntityInstance activator, CEntityInstance caller,
+        CVariant value, float delay)
     {
-        Logger.LogInformation("[EntityOutputHook Attribute] Buyzone called output ({name}, {activator}, {caller}, {delay})", name, activator.DesignerName, caller.DesignerName, delay);
-
+        Logger.LogInformation("func_buyzone fired {Name}", name);
         return HookResult.Continue;
     }
+    // end-snippet
 }

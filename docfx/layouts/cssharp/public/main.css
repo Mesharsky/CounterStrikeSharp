@@ -1,4 +1,28 @@
 :root {
-    --bs-font-sans-serif: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --bs-font-monospace: "Jetbrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --bs-font-sans-serif: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto,
+        "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --bs-font-monospace: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+
+    --bs-link-color: #ff6b00;
+    --bs-link-hover-color: #cc5500;
+}
+
+[data-bs-theme="dark"] {
+    --bs-body-bg: #0e1116;
+    --bs-tertiary-bg: #0e1116;
+    --bs-link-color: #ffb380;
+    --bs-link-hover-color: #ffd4b3;
+}
+
+[data-bs-theme="dark"] header.bg-body,
+[data-bs-theme="dark"] footer {
+    background-color: #0e1116 !important;
+}
+
+header .navbar-brand img {
+    height: 28px;
+    width: auto;
+    margin-right: 0.5rem;
 }

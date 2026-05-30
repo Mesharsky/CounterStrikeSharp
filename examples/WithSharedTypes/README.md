@@ -1,4 +1,4 @@
-﻿# With Shared Types (Capabilities)
+# With Shared Types (Capabilities)
 
 An example plugin that exposes a balance contract library, to use as a shared library between multiple plugins.
 

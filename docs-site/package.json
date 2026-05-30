@@ -1,0 +1,19 @@
+{
+    "name": "counterstrikesharp-docs",
+    "type": "module",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "astro dev",
+        "start": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "@astrojs/mdx": "^4.3.14",
+        "@astrojs/starlight": "^0.30.3",
+        "astro": "^5.1.0",
+        "sharp": "^0.33.5"
+    }
+}

@@ -12,56 +12,45 @@ public class WithUserMessagesPlugin : BasePlugin
 {
     public override string ModuleName => "Example: With User Messages";
     public override string ModuleVersion => "1.0.0";
-    public override string ModuleAuthor => "CounterStrikeSharp & Contributors";
-    public override string ModuleDescription => "A simple plugin that hooks and sends User Messages";
 
     public override void Load(bool hotReload)
     {
-        // Hooks can be added using the user message ID. In this case it's the ID for `CMsgTEFireBullets`.
+        // begin-snippet: usermessages-hook
+        // Hook by user message id. 452 is CMsgTEFireBullets.
         HookUserMessage(452, um =>
         {
-            // Sets all weapon sounds to the sound of a silenced usp.
+            // Force every weapon to sound like a silenced usp.
             um.SetUInt("weapon_id", 0);
             um.SetInt("sound_type", 9);
             um.SetUInt("item_def_index", 61);
-
             return HookResult.Continue;
         }, HookMode.Pre);
 
+        // 118 is the chat message id.
         HookUserMessage(118, um =>
         {
             var author = um.ReadString("param1");
             var message = um.ReadString("param2");
-            Logger.LogInformation("Chat message from {Author}: {Message}", author, message);
+            Logger.LogInformation("Chat from {Author}: {Message}", author, message);
 
-            for (var i = 0; i < um.Recipients.Count; i++)
-            {
-                Logger.LogInformation("Recipient {Index}: {Name}", i, um.Recipients[i].PlayerName);
-            }
+            // Returning Stop drops the message for every recipient.
+            if (message.Contains("stop")) return HookResult.Stop;
 
-            if (message.Contains("stop"))
-            {
-                return HookResult.Stop;
-            }
-
-            if (message.Contains("skip"))
-            {
-                um.Recipients.Clear();
-            }
-
+            // You can also trim recipients to selectively hide the message.
+            if (message.Contains("skip")) um.Recipients.Clear();
             return HookResult.Continue;
         });
+        // end-snippet
     }
 
-    [ConsoleCommand("css_shake")]
+    // begin-snippet: usermessages-send
+    [ConsoleCommand("css_shake", "Shakes the screen for the caller or all players")]
     public void OnCommandShake(CCSPlayerController? player, CommandInfo command)
     {
         if (player == null) return;
 
-        // UserMessage.FromPartialName is a helper method that creates a UserMessage object from a partial network name.
-        // In this case, it will resolve to `CUserMessageShake`.
+        // Resolve the message by a partial network name. "Shake" matches CUserMessageShake.
         var message = UserMessage.FromPartialName("Shake");
-
         message.SetFloat("duration", 2);
         message.SetFloat("amplitude", 5);
         message.SetFloat("frequency", 10f);
@@ -77,8 +66,6 @@ public class WithUserMessagesPlugin : BasePlugin
         }
 
         message.Send();
-
-        // You can also use an overload of `Send` to send the message to a specific player without manually creating a recipient filter.
-        // message.Send(player);
     }
+    // end-snippet
 }

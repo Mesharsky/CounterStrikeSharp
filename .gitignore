@@ -556,3 +556,11 @@ _NCrunch*
 docfx/_site/
 docfx/api/
 docfx/_exported_templates/
+
+# docs-site (Starlight)
+docs-site/dist/
+docs-site/.astro/
+docs-site/node_modules/
+
+# MarkdownSnippets log
+mdsnippets.log

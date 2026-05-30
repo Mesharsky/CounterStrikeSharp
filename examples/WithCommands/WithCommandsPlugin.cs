@@ -17,47 +17,41 @@ public class WithCommandsPlugin : BasePlugin
 
     public override void Load(bool hotReload)
     {
-        // All commands that are prefixed with "css_" will automatically be registered as a chat command without the prefix.
-        // i.e. `css_ping` can be called with `!ping` or `/ping`.
-        // Commands can be registered using the instance `AddCommand` method.
-        AddCommand("css_ping", "Responds to the caller with \"pong\"", (player, commandInfo) =>
+        // begin-snippet: commands-add-command
+        // Any command prefixed with "css_" is also available as a chat trigger.
+        // "css_ping" can be called from chat with "!ping" or "/ping".
+        AddCommand("css_ping", "Responds with pong", (player, info) =>
         {
-            // The player is null, then the command has been called by the server console.
             if (player == null)
             {
-                commandInfo.ReplyToCommand("pong server");
+                info.ReplyToCommand("pong server");
                 return;
             }
 
-            commandInfo.ReplyToCommand("pong");
+            info.ReplyToCommand("pong");
         });
+        // end-snippet
     }
 
-    // Commands can also be registered using the `Command` attribute.
-    [ConsoleCommand("css_hello", "Responds to the caller with \"pong\"")]
-    // The `CommandHelper` attribute can be used to provide additional information about the command.
+    // begin-snippet: commands-attribute
+    [ConsoleCommand("css_hello", "Says hello to a player")]
     [CommandHelper(minArgs: 1, usage: "[name]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
-    [RequiresPermissions("@css/cvar")]
-    public void OnHelloCommand(CCSPlayerController? player, CommandInfo commandInfo)
+    public void OnHelloCommand(CCSPlayerController? player, CommandInfo info)
     {
-        // The first argument is the command name, in this case "css_hello".
-        commandInfo.GetArg(0); // css_hello
-
-        // The second argument is the first argument passed to the command, in this case "name".
-        // The `minArgs` helper parameter is used to ensure that the second argument is present.
-        var name = commandInfo.GetArg(1);
-
-        commandInfo.ReplyToCommand($"Hello {name}");
+        // Arg 0 is always the command name itself.
+        var name = info.GetArg(1);
+        info.ReplyToCommand($"Hello {name}");
     }
-    
-    // Permissions can be added to commands using the `RequiresPermissions` attribute.
-    // See the admin documentation for more information on permissions.
+    // end-snippet
+
+    // begin-snippet: commands-permissions
+    [ConsoleCommand("css_kick", "Kicks a player by id")]
     [RequiresPermissions("@css/kick")]
-    [CommandHelper(minArgs: 1, usage: "[id]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
-    public void OnSpecialCommand(CCSPlayerController? player, CommandInfo commandInfo)
+    [CommandHelper(minArgs: 1, usage: "[userid]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    public void OnKickCommand(CCSPlayerController? player, CommandInfo info)
     {
-        var id = commandInfo.GetArg(1);
-        
+        var id = info.GetArg(1);
         Server.ExecuteCommand($"kick {id}");
     }
+    // end-snippet
 }

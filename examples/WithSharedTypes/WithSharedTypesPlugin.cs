@@ -10,28 +10,22 @@ public class WithSharedTypesPlugin : BasePlugin
 {
     public override string ModuleName => "Example: Shared Types";
     public override string ModuleVersion => "1.0.0";
-    public override string ModuleAuthor => "CounterStrikeSharp & Contributors";
-    public override string ModuleDescription => "A simple plugin that shares types between multiple plugins";
 
-    // Declares a player capability, that stores some sort of functionality for a player.
-    // In this case, it's a balance handler, which is used to store a player's balance.
-    // Note that we use the same name for the capability as the one in the other plugin.
-    // IBalanceHandler is defined in MySharedTypes.Contracts, which is a shared library and placed in the `shared/` subfolder.
+    // begin-snippet: capabilities-declare
+    // A player capability is keyed per player. Other plugins use the same name to reach it.
+    // IBalanceHandler lives in MySharedTypes.Contracts, which sits in the shared/ folder.
     public static PlayerCapability<IBalanceHandler> BalanceCapability { get; } = new("myplugin:balance");
-    
-    // Declares a player capability of a primitive type, in this case, a decimal.
-    public static PlayerCapability<Decimal> BalanceCapabilityDecimal { get; } = new("myplugin:balance_decimal");
-    
-    // Plugin capabilities are similar to player capabilities, but they are not tied to a player, and are just generic APIs
-    // that are exposed by a plugin. In this case, we expose a balance service, which is used to clear all balances.
+
+    // A plugin capability is a single service for the whole plugin.
     public static PluginCapability<IBalanceService> BalanceServiceCapability { get; } = new("myplugin:balance_service");
+    // end-snippet
 
     public override void Load(bool hotReload)
     {
-        // Register the capability implementations here. Note that plugins don't need to register an implementation if it is already implemented in another plugin.
+        // begin-snippet: capabilities-register
         Capabilities.RegisterPlayerCapability(BalanceCapability, player => new BalanceHandler(player));
         Capabilities.RegisterPluginCapability(BalanceServiceCapability, () => new BalanceService());
-        Capabilities.RegisterPlayerCapability(BalanceCapabilityDecimal, (player) => new BalanceHandler(player).Balance);
+        // end-snippet
 
         AddCommand("css_balance", "Gets your current balance", (player, info) =>
         {
@@ -42,16 +36,10 @@ public class WithSharedTypesPlugin : BasePlugin
         AddCommand("css_give", "Gives you money", (player, info) =>
         {
             if (player == null) return;
-
             var balance = BalanceCapability.Get(player);
             if (balance == null) return;
-
             balance.Add(100);
             player.PrintToChat($"Your balance is now {balance.Balance}");
         });
-    }
-
-    public override void Unload(bool hotReload)
-    {
     }
 }

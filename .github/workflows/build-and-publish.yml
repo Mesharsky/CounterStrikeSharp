@@ -11,6 +11,9 @@ on:
   push:
     paths-ignore:
       - "docfx/**"
+      - "docs-site/**"
+      - "mdsnippets.json"
+      - ".config/dotnet-tools.json"
     branches: ["main"]
     tags:
       - "v*"

@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+:root {
+    --sl-color-accent-low: #4a2200;
+    --sl-color-accent: #ff6b00;
+    --sl-color-accent-high: #ffb380;
+
+    --sl-font: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+    --sl-font-mono: "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+    --sl-content-width: 60rem;
+    --sl-sidebar-width: 19rem;
+}
+
+@media (min-width: 72rem) {
+    .main-frame .main-pane>.content-panel {
+        max-width: none;
+    }
+}
+
+:root[data-theme="dark"] {
+    --sl-color-bg: #0e1116;
+    --sl-color-bg-nav: #0e1116;
+    --sl-color-bg-sidebar: #0e1116;
+    --sl-color-text-accent: var(--sl-color-accent-high);
+}
+
+:root[data-theme="light"] {
+    --sl-color-text-accent: var(--sl-color-accent);
+}
+
+:not(pre)>code {
+    font-weight: 500;
+}
+
+.sl-markdown-content :is(h2, h3) {
+    scroll-margin-top: 5rem;
+}

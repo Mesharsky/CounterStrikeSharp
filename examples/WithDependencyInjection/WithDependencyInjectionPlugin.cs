@@ -5,21 +5,20 @@ using Microsoft.Extensions.Logging;
 
 namespace WithDependencyInjection;
 
+// begin-snippet: di-plugin
 [MinimumApiVersion(80)]
 public class WithDependencyInjectionPlugin : BasePlugin
 {
     public override string ModuleName => "Example: Dependency Injection";
     public override string ModuleVersion => "1.0.0";
-    public override string ModuleAuthor => "CounterStrikeSharp & Contributors";
-    public override string ModuleDescription => "An example plugin that uses dependency injection.";
 
     private readonly TestInjectedClass _testInjectedClass;
-    
+
     public WithDependencyInjectionPlugin(TestInjectedClass testInjectedClass)
     {
         _testInjectedClass = testInjectedClass;
     }
-    
+
     public override void Load(bool hotReload)
     {
         _testInjectedClass.SayHello();
@@ -48,3 +47,4 @@ public class TestInjectedClass
         _logger.LogInformation("Hello World from Test Injected Class");
     }
 }
+// end-snippet

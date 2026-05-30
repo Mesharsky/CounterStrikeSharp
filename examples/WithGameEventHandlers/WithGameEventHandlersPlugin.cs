@@ -15,40 +15,34 @@ public class WithGameEventHandlersPlugin : BasePlugin
 
     public override void Load(bool hotReload)
     {
-        // Subscriptions can be added via the instance method
+        // begin-snippet: events-register-handler
         RegisterEventHandler<EventPlayerDeath>((@event, info) =>
         {
-            // You can use `info.DontBroadcast` to set the dont broadcast flag on the event (in pre handlers)
-            // This will prevent the event from being broadcast to other clients.
-            // In this example we prevent kill-feed messages from being broadcast if it was not a headshot.
+            // info.DontBroadcast can be set in pre hooks to hide the event from clients.
             if (!@event.Headshot)
             {
-                @event.Attacker.PrintToChat($"Skipping player_death broadcast");
+                @event.Attacker?.PrintToChat("Skipping player_death broadcast");
                 info.DontBroadcast = true;
             }
 
             return HookResult.Continue;
         }, HookMode.Pre);
+        // end-snippet
     }
-    
-    // Subscriptions can be added via an attribute
+
+    // begin-snippet: events-attribute-handler
     [GameEventHandler]
     public HookResult OnPlayerBlind(EventPlayerBlind @event, GameEventInfo info)
     {
-        Logger.LogInformation("Player was just blinded for {Duration}", @event.BlindDuration);
-
+        Logger.LogInformation("Player was blinded for {Duration}s", @event.BlindDuration);
         return HookResult.Continue;
     }
 
-    // The event name is inferred from the event type you pass to the first argument.
-    // e.g. EventRoundStart becomes "round_start"
-    // Note: You can use the `HookMode` enum to specify the hook mode
-    // If you do not specify a hook mode, it will default to `HookMode.Post`
     [GameEventHandler(HookMode.Pre)]
     public HookResult OnEventRoundStartPre(EventRoundStart @event, GameEventInfo info)
     {
-        Logger.LogInformation("Round has started with Timelimit: {Timelimit}", @event.Timelimit);
-
+        Logger.LogInformation("Round started with timelimit {Timelimit}", @event.Timelimit);
         return HookResult.Continue;
     }
+    // end-snippet
 }

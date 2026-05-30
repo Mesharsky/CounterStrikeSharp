@@ -1,0 +1,23 @@
+{
+    "$schema": "https://raw.githubusercontent.com/SimonCropp/MarkdownSnippets/main/src/schema.json",
+    "ReadOnly": false,
+    "WriteHeader": false,
+    "ValidateContent": false,
+    "TreatMissingSnippetAsWarning": false,
+    "TreatMissingIncludeAsWarning": false,
+    "MaxWidth": 120,
+    "ExcludeDirectories": [
+        "bin",
+        "obj",
+        "node_modules",
+        "_site",
+        "dist",
+        ".astro",
+        "libraries",
+        "build",
+        "docfx/api",
+        "docfx/_site",
+        "docfx/obj"
+    ],
+    "Convention": "InPlaceOverwrite"
+}
