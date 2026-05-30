@@ -1,9 +1,13 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 
+const site = process.env.DOCS_SITE ?? "https://mesharsky.github.io";
+const base = process.env.DOCS_BASE ?? "/";
+
 // https://astro.build/config
 export default defineConfig({
-    site: "https://docs.cssharp.dev",
+    site,
+    base,
     trailingSlash: "ignore",
     integrations: [
         starlight({
