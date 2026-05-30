@@ -1,74 +1,60 @@
 name: Publish docs
-
 on:
   push:
     branches:
       - main
   workflow_dispatch:
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
 jobs:
   publish-docs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     runs-on: ubuntu-latest
-
+    env:
+      DOCS_SITE: https://mesharsky.github.io
+      DOCS_BASE: /CounterStrikeSharp
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.x
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
           cache-dependency-path: docs-site/package-lock.json
-
       - name: Restore .NET tools
         run: dotnet tool restore
-
       - name: Sync code snippets into markdown
         run: dotnet mdsnippets
-
       - name: Install Starlight dependencies
         working-directory: docs-site
         run: npm ci || npm install
-
       - name: Build Starlight site
         working-directory: docs-site
         run: npm run build
-
       - name: Build DocFX API reference
         run: dotnet docfx docfx/docfx.json
-
       - name: Merge DocFX output under /api
         run: |
           mkdir -p docs-site/dist/api
           cp -r docfx/_site/. docs-site/dist/api/
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs-site/dist
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
