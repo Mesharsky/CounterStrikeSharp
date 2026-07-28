@@ -29,7 +29,7 @@ To retarget an existing plugin, change the `TargetFramework` in the
 `.csproj` from `net8.0` to `net10.0`, then rebuild.
 
 ```diff
-- <TargetFramework>net8.0</TargetFramework>
+- <TargetFramework>net10.0</TargetFramework>
 + <TargetFramework>net10.0</TargetFramework>
 ```
 
